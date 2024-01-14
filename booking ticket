@@ -1,0 +1,97 @@
+import mysql.connector
+from datetime import date
+import random
+import string
+"""---------Asansol To Kolkata Booking--------------"""
+def bus1(connection,cur):
+    pname = input("Enter Your Name : ")
+    pAge = int(input("Enter Your Age : "))
+    pcon = int(input("Enter Your Contact number : "))
+    date_components = input('Enter a date formatted as YYYY-MM-DD : ').split('-')
+    year,month,day = [int(item) for item in date_components]
+    Journey_date = date(year,month,day)
+    From_place = "Asansol";
+    To_place = "Kolkata";
+    Ticket_number = ''.join(random.choices(string.ascii_uppercase + string.digits, k=7))
+                          #column names                                                                                   #parameters
+    query = "insert into bus1(passenger_name,passenger_age,contact,Journey_date,from_place,to_place,ticket_number) values(%s,%s,%s,%s,%s,%s,%s)"
+    #number of column names = number of parameters
+    value = (pname,pAge,pcon,Journey_date,From_place,To_place,Ticket_number)
+    cur.execute(query,value)
+    connection.commit()
+    print("Bus Booked Sucessfully.")
+
+    print("--------------------------------")
+    print("Booking Details: ")
+    print("---------------------------------")
+    print("Passenger Name : ", pname);
+    print("Passenegr Age : ", pAge);
+    print("Contact Number : ", pcon);
+    print("Journey Date : ", Journey_date)
+    print("Departure Place : ", From_place)
+    print("Arrival Place : ", To_place)
+    print("Ticket Number : ", Ticket_number)
+
+
+
+"""---------------Asansol to Dhanbad-----------------"""
+def bus2(connection, cur):
+    pname = input("Enter Your Name : ")
+    pAge = int(input("Enter Your Age : "))
+    pcon = int(input("Enter Your Contact number : "))
+    date_components = input('Enter a date formatted as YYYY-MM-DD : ').split('-')
+    year,month,day = [int(item) for item in date_components]
+    Journey_date = date(year,month,day)
+    From_place = "Asansol";
+    To_place = "Dhanbad";
+    Ticket_number = ''.join(random.choices(string.ascii_uppercase + string.digits, k=7))
+            #command     #tablename            #database column names                                                        #parameters
+    query = "insert into bus2(passenger_name,passenger_age,contact,Journey_date,from_place,to_place,ticket_number) values(%s,%s,%s,%s,%s,%s,%s)"
+    value = (pname,pAge,pcon,Journey_date,From_place,To_place,Ticket_number)
+    cur.execute(query,value)
+
+    print("Bus Booked Sucessfully.")
+
+    print("--------------------------------")
+    print("Booking Details: ")
+    print("---------------------------------")
+    print("Passenger Namr : ", pname);
+    print("Passenegr Age : ", pAge);
+    print("Contact Number : ", pcon);
+    print("Journey Date : ", Journey_date)
+    print("Departure Place : ", From_place)
+    print("Arrival Place : ", To_place)
+    print("Ticket Number : ", Ticket_number)
+
+#connecting python to mysql
+def main():
+    #varaible     #package_name.class.method
+    connection =  mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="busbooking"
+    )
+    cur = connection.cursor()
+    if (cur):
+        print("Database Connection Established Succesfully.")
+        choice=0
+        while choice <= 2:
+            print("\n--------------PYTHON TRAVELS-------------")
+            print("1. Asansol To Kolkata")
+            print("2. Asansol To Dhanbad")
+            print("3. Exit Application")
+            print("\n------------------------------------------")
+            choice = int(input("Choose Your Journey : "))
+            if(choice == 1):
+                bus1(connection, cur)
+            elif(choice == 2):
+                bus2(connection, cur)
+            else:
+                print("Thanks For Visiting Us.")
+                exit()
+    else:
+            print("Database Connection Not Established.")
+
+main()
+
