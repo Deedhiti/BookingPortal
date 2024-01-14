@@ -1,0 +1,46 @@
+import mysql.connector
+from datetime import date
+import random
+import string
+"""---------------------User Registration-------------------------"""
+def user_registration(connection,cur):
+    user_name = input("Enter Your Name : ")
+    user_address = input("Enter Your Address : ")
+    contact = int(input("Enter Your Number : "))
+    password = input("Enter Your Password : ")
+    user_age = int(input("Enter Your Age : "))
+    query = "insert into user_registration(user_name,user_address,contact,password,user_age) values(%s,%s,%s,%s,%s)"
+    value = (user_name,user_address,contact,password,user_age)
+    cur.execute(query, value)
+    connection.commit()
+    print("Registration Done Successfully")
+
+    print("-------------------------------------")
+    print("User Details")
+    print("-------------------------------------")
+    print("User Name : ", user_name)
+    print("User Address : ", user_address)
+    print("User Contact : ", contact)
+    print("User Password : ", password)
+    print("User Age : ", user_age)
+
+
+#connecting python to mysql
+def main():
+    #varaible     #package_name.class.method
+    connection =  mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="busbooking"
+    )
+    cur = connection.cursor()
+    if (cur):
+        print("Database Connection Established Succesfully.")
+        user_registration(connection, cur)
+        print("Registration Successfull.")
+    else:
+        print("Server Error. Try Again Later!")
+
+
+main()
